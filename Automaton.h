@@ -1,5 +1,9 @@
-#ifndef PROJECT2020_ALPHABET_H
-#define PROJECT2020_ALPHABET_H
+//
+// Created by boris on 6/8/2020.
+//
+
+#ifndef AUTOMATON_AUTOMATON_H
+#define AUTOMATON_AUTOMATON_H
 
 #include <iostream>
 #include <fstream>
@@ -441,4 +445,5 @@ std::ostream & operator << (std::ostream &out, Automaton<T> &automaton){
     out<<"\n";
     return out;
 }
-#endif //PROJECT2020_ALPHABET_H
+
+#endif //AUTOMATON_AUTOMATON_H

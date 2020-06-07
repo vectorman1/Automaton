@@ -1,9 +1,9 @@
 //
-// Created by boris on 6/7/2020.
+// Created by boris on 6/8/2020.
 //
 
-#ifndef PROJECT2020_ALPHABET_H
-#define PROJECT2020_ALPHABET_H
+#ifndef AUTOMATON_ALPHABET_H
+#define AUTOMATON_ALPHABET_H
 
 #include <iostream>
 #include <fstream>
@@ -14,7 +14,7 @@ private:
     int numberOfMembers;
     T* elements;
 public:
-    explicit Alphabet(int numberOfMembers){
+    Alphabet(int numberOfMembers){
         this->numberOfMembers = numberOfMembers;
         this->elements = new T[numberOfMembers];
     }
@@ -51,4 +51,4 @@ public:
     }
 };
 
-#endif //PROJECT2020_ALPHABET_H
+#endif //AUTOMATON_ALPHABET_H

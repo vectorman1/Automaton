@@ -1,13 +1,12 @@
 //
-// Created by boris on 6/7/2020.
+// Created by boris on 6/8/2020.
 //
 
-#ifndef PROJECT2020_STATE_H
-#define PROJECT2020_STATE_H
+#ifndef AUTOMATON_STATE_H
+#define AUTOMATON_STATE_H
 
 #include <string>
 #include <iostream>
-#include <utility>
 
 class State
 {
@@ -20,9 +19,9 @@ public:
     friend bool operator==(const State& left, const State& right);
 
     State(){this->stateName = "EmptyState";}
-    explicit State(std::string stateName){this->stateName = std::move(stateName);}
+    State(std::string stateName){this->stateName = stateName;}
     std::string getStateName(){return this->stateName;}
-    void setStateName(std::string name){ this->stateName = std::move(name);}
+    void setStateName(std::string stateName){this->stateName = stateName;}
 
 };
 
@@ -37,7 +36,10 @@ std::ostream & operator << (std::ostream &out, const State &state){
 }
 
 bool operator==(const State& left, const State& right){
-    return left.stateName == right.stateName;
+    if(left.stateName==right.stateName)
+        return true;
+    else
+        return false;
 }
 
-#endif //PROJECT2020_STATE_H
+#endif //AUTOMATON_STATE_H
