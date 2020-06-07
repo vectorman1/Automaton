@@ -7,46 +7,47 @@
 
 #include <iostream>
 #include <fstream>
-template <typename T>
-class Alphabet
-{
+
+template<typename T>
+class Alphabet {
 private:
     int numberOfMembers;
-    T* elements;
+    T *elements;
 public:
-    Alphabet(int numberOfMembers){
+    Alphabet(int numberOfMembers) {
         this->numberOfMembers = numberOfMembers;
         this->elements = new T[numberOfMembers];
     }
 
-    void setElements(){
+    void setElements() {
         int isThere;
-        for(int i=0;i<numberOfMembers;){
+        for (int i = 0; i < numberOfMembers;) {
             isThere = 0;
-            std::cout<<"Element["<<i+1<<"] ==> ";
-            std::cin>>elements[i];
-            for(int j=0;j<i;j++)
-                if(elements[j]==elements[i]){
+            std::cout << "Element[" << i + 1 << "] ==> ";
+            std::cin >> elements[i];
+            for (int j = 0; j < i; j++)
+                if (elements[j] == elements[i]) {
                     isThere = 1;
-                    std::cout<<"All elements must be unique!\n";
+                    std::cout << "All elements must be unique!\n";
                 }
-            if(isThere==0)
+            if (isThere == 0)
                 i++;
         }
     }
 
-    void setElement(int index,T element){
+    void setElement(int index, T element) {
         elements[index] = element;
     }
-    T getElement(int i){
+
+    T getElement(int i) {
         return elements[i];
     }
 
-    T* getElements(){
+    T *getElements() {
         return this->elements;
     }
 
-    int getNumberOfMembers(){
+    int getNumberOfMembers() {
         return numberOfMembers;
     }
 };
