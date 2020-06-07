@@ -10,10 +10,11 @@
 #include <string>
 #include "State.h"
 #include "Alphabet.h"
+#include "AutomatonBase.h"
 
 
 template<typename T>
-class Automaton {
+class Automaton: public AutomatonBase<T> {
 private:
     State *states = nullptr;
     int *statesCharacteristics;
@@ -25,7 +26,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &out, const State &state);
 
-    int setNumberOfStates() {
+    int setNumberOfStates() override {
         int states_number = 0;
         while (states_number < 1) {
             std::cout << "Enter how many states: ";
@@ -37,7 +38,7 @@ public:
         return states_number;
     }
 
-    void setStates() {
+    void setStates() override {
         if (states != nullptr) {
             delete[] states;
             delete[] statesCharacteristics;
@@ -60,7 +61,7 @@ public:
         }
     }
 
-    int checkStateIndex(State state) {
+    int checkStateIndex(State state) override {
         int stateIndex = -1;
         for (int i = 0; i < numberOfStates; i++) {
             if (state == states[i]) {
@@ -71,7 +72,7 @@ public:
         return stateIndex;
     }
 
-    int checkAlphabetIndex(T member) {
+    int checkAlphabetIndex(T member) override {
         int memberIndex = -1;
         for (int i = 0; i < alphabet->getNumberOfMembers(); i++) {
             if (alphabet->getElements()[i] == member) {
@@ -82,7 +83,7 @@ public:
         return memberIndex;
     }
 
-    State validStateInput() {
+    State validStateInput() override {
         State state;
         int isValid = -1;
         do {
@@ -93,7 +94,7 @@ public:
         return state;
     }
 
-    void setStatesCharacteristics() {
+    void setStatesCharacteristics() override {
         State state;
         int numberOfFinalStates, stateIndex = -1;
         do {
@@ -120,7 +121,7 @@ public:
 
     }
 
-    void setAlphabet() {
+    void setAlphabet() override {
         int membersOfAlphabet = 0;
         while (membersOfAlphabet <= 0) {
             std::cout << "Enter how much elements do you want ==> ";
@@ -131,7 +132,7 @@ public:
         alphabet->setElements();
     }
 
-    void setTransitonTable() {
+    void setTransitionTable() override {
         transitionTable = new State *[numberOfStates];
 
         for (int i = 0; i < numberOfStates; ++i)
@@ -144,7 +145,7 @@ public:
             }
     }
 
-    State startState() {
+    State startState() override {
         int i = 0;
         while (i < numberOfStates) {
             if ((statesCharacteristics[i] + 1) % 2 == 0)
@@ -154,7 +155,7 @@ public:
         return states[i];
     }
 
-    int startStateIndex() {
+    int startStateIndex() override {
         int i = 0;
         while (i < numberOfStates) {
             if ((statesCharacteristics[i] + 1) % 2 == 0)
@@ -164,7 +165,7 @@ public:
         return i;
     }
 
-    int finalStatesNumber() {
+    int finalStatesNumber() override {
         int numberOfFinalStates = 0;
         for (int i = 0; i < numberOfStates; i++)
             if (statesCharacteristics[i] > 1)
@@ -179,7 +180,7 @@ public:
     АКО ДУМАТА Е ВАЛИДНА И НЕ Е СТИГНАЛ ДО КРАЙНО СЪСТОЯНИЕ ВРЪЩА 0
     АКО ДУМАТА Е НЕВАЛИДНА(НЯКОЙ ОТ СИМВОЛИТЕ НЕ ПРИНАДЛЕЖИ НА АЗБУКАТА) ВРЪША -1
     */
-    int read(T *word, int lengthWord) {
+    int read(T *word, int lengthWord) override {
         State currentState = startState();
         int indexCurrentState = checkStateIndex(currentState);
         int indexAlphabet;
@@ -198,7 +199,7 @@ public:
     }
 
     /*ПЕЧАТА ПЪТЯ, ИЗЧИТАЙКИ ДУМАТА*/
-    void trace(T *word, int lengthWord) {
+    void trace(T *word, int lengthWord) override{
         State currentState = startState();
         int indexCurrentState = checkStateIndex(currentState);
         int indexAlphabet;
@@ -219,58 +220,31 @@ public:
         std::cout << "\n";
     }
 
-    void test() {
-        std::cout << "numberofStates = " << numberOfStates;
-        std::cout << "\nStates:\n";
-        for (int i = 0; i < numberOfStates; i++)
-            std::cout << states[i] << " ";
-        std::cout << "\n";
-        for (int i = 0; i < alphabet->getNumberOfMembers(); i++)
-            std::cout << alphabet->getElement(i) << " ";
-        std::cout << "\n";
-        for (int i; i < numberOfStates; i++)
-            std::cout << statesCharacteristics[i] << " ";
-        std::cout << "\n";
-
-        for (int i = 0; i < numberOfStates; i++) {
-            for (int j = 0; j < alphabet->getNumberOfMembers(); j++) {
-                std::cout << transitionTable[i][j] << " ";
-
-            }
-            std::cout << "\n";
-        }
-
-    }
-
-    State *getStates() {
+    State *getStates() override {
         return this->states;
     }
 
-    int *getStatesCharacteristics() {
+    int *getStatesCharacteristics() override {
         return this->statesCharacteristics;
     }
 
-    int getNumberOfStates() {
+    int getNumberOfStates() override {
         return numberOfStates;
     }
 
-    Alphabet<T> getAlphabet() {
-        return this->alphabet;
-    }
-
-    int getNumberofAlphabet() {
+    int getNumberOfAlphabet() override {
         return alphabet->getNumberOfMembers();
     }
 
-    T *getElementsOfAlphabet() {
+    T *getElementsOfAlphabet() override {
         return alphabet->getElements();
     }
 
-    State **getTransitionTable() {
+    State **getTransitionTable() override {
         return this->transitionTable;
     }
 
-    void menu() {
+    void menu() override {
         std::cout << "\n[1] --> LOAD FROM FILE\n";
         std::cout << "[2] --> ENTER CUSTOM AUTOMATON\n";
         std::cout << "[3] --> ENTER A WORD = TRACE\n";
@@ -282,7 +256,7 @@ public:
         std::cout << "[9] --> EXIT\n\n===>";
     }
 
-    void start() {
+    void start() override {
         char word[100];
         int choice;
         while (choice != 9) {
@@ -335,7 +309,7 @@ public:
 
     }
 
-    void load() {
+    void load() override {
         int x;
         T y;
         std::ifstream input_data;
@@ -386,7 +360,7 @@ public:
 
     }
 
-    void save() {
+    void save() override {
         std::string fileName;
         std::cout << "Enter file name to save current Automaton: ";
         std::cin >> fileName;
@@ -399,13 +373,13 @@ public:
         std::cout << "File has been saved to:" << fileName << "\n";
     }
 
-    void changeStartState() {
+    void changeStartState() override {
         State newStartState = validStateInput();
         statesCharacteristics[startStateIndex()]--;
         statesCharacteristics[checkStateIndex(newStartState)]++;
     }
 
-    void addFinalState() {
+    void addFinalState() override {
         State addFinal = validStateInput();
         if (statesCharacteristics[checkStateIndex(addFinal)] > 1) {
             std::cout << "Already final\n";
@@ -415,7 +389,7 @@ public:
             statesCharacteristics[checkStateIndex(addFinal)] += 2;
     }
 
-    void deleteFinalState() {
+    void deleteFinalState() override {
         State deleteFinal = validStateInput();
         if (statesCharacteristics[checkStateIndex(deleteFinal)] < 2) {
             std::cout << "Not final\n";
@@ -441,7 +415,7 @@ struct TypeIsInt<int> {
 template<typename T>
 std::ostream &operator<<(std::ostream &out, Automaton<T> &automaton) {
     int numberOfStates = automaton.getNumberOfStates();
-    int numberOfElementOfAlphabet = automaton.getNumberofAlphabet();
+    int numberOfElementOfAlphabet = automaton.getNumberOfAlphabet();
     State **transitionTable = automaton.getTransitionTable();
     int *statesCharacteristics = automaton.getStatesCharacteristics();
     State *states = automaton.getStates();
