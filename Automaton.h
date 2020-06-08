@@ -258,7 +258,7 @@ public:
 
     void start() override {
         char word[100];
-        int choice;
+        int choice = 0;
         while (choice != 9) {
             this->menu();
             std::cin >> choice;
@@ -272,7 +272,7 @@ public:
                     this->setStates();
                     this->setAlphabet();
                     this->setStatesCharacteristics();
-                    this->setTransitonTable();
+                    this->setTransitionTable();
                 };
                     break;
                 case 3: {
